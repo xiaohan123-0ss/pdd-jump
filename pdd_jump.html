@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>打开拼多多App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 2em;
+      text-align: center;
+    }
+    input {
+      width: 90%;
+      padding: 1em;
+      margin: 1em 0;
+      font-size: 1em;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    button {
+      padding: 0.8em 2em;
+      font-size: 1em;
+      background-color: #e02e24;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #c6261d;
+    }
+  </style>
+</head>
+<body>
+  <h2>粘贴拼多多商品链接</h2>
+  <input type="text" id="link" placeholder="例如：https://mobile.yangkeduo.com/goods.html?goods_id=1234567890">
+  <br>
+  <button onclick="jump()">跳转</button>
+
+  <script>
+    // 从链接中提取 goods_id 参数
+    function extractGoodsId(url) {
+      let match = url.match(/goods_id=(\d+)/);
+      return match ? match[1] : null;
+    }
+
+    function jump() {
+      let input = document.getElementById("link").value.trim();
+      let gid = extractGoodsId(input);
+
+      if (!gid) {
+        alert("无法从链接中识别商品ID！");
+        return;
+      }
+
+      // App 跳转地址
+      let appUrl = 'pinduoduo://com.xunmeng.pinduoduo/duo_coupon_landing.html?goods_id=' + gid;
+
+      // Fallback 网页地址
+      let webUrl = 'https://mobile.yangkeduo.com/goods.html?goods_id=' + gid;
+
+      // 开始跳转
+      let clickedAt = +new Date;
+      window.location = appUrl;
+
+      // 失败时跳网页
+      setTimeout(function () {
+        if (+new Date - clickedAt < 2200) {
+          window.location = webUrl;
+        }
+      }, 1500);
+    }
+  </script>
+</body>
+</html>
