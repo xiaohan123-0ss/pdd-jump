@@ -2,75 +2,29 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>打开拼多多App</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body {
-      font-family: sans-serif;
-      padding: 2em;
-      text-align: center;
-    }
-    input {
-      width: 90%;
-      padding: 1em;
-      margin: 1em 0;
-      font-size: 1em;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-    }
-    button {
-      padding: 0.8em 2em;
-      font-size: 1em;
-      background-color: #e02e24;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #c6261d;
-    }
-  </style>
+  <title>跳转拼多多</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-  <h2>粘贴拼多多商品链接</h2>
-  <input type="text" id="link" placeholder="例如：https://mobile.yangkeduo.com/goods.html?goods_id=1234567890">
-  <br>
-  <button onclick="jump()">跳转</button>
+  <p>正在跳转拼多多 App...</p>
 
   <script>
-    // 从链接中提取 goods_id 参数
-    function extractGoodsId(url) {
-      let match = url.match(/goods_id=(\d+)/);
-      return match ? match[1] : null;
-    }
+    // 替换为你的商品 ID
+    var goods_id = '100468017663';
 
-    function jump() {
-      let input = document.getElementById("link").value.trim();
-      let gid = extractGoodsId(input);
+    // 拼多多 App 跳转 Scheme
+    var appUrl = 'pinduoduo://com.xunmeng.pinduoduo/goods_detail?goods_id=' + goods_id;
 
-      if (!gid) {
-        alert("无法从链接中识别商品ID！");
-        return;
-      }
+    // 备用的 H5 页面（有可能显示“售罄”）
+    var fallbackUrl = 'https://mobile.yangkeduo.com/goods.html?goods_id=' + goods_id;
 
-      // App 跳转地址
-      let appUrl = 'pinduoduo://com.xunmeng.pinduoduo/duo_coupon_landing.html?goods_id=' + gid;
+    // 开始跳转 App
+    window.location.href = appUrl;
 
-      // Fallback 网页地址
-      let webUrl = 'https://mobile.yangkeduo.com/goods.html?goods_id=' + gid;
-
-      // 开始跳转
-      let clickedAt = +new Date;
-      window.location = appUrl;
-
-      // 失败时跳网页
-      setTimeout(function () {
-        if (+new Date - clickedAt < 2200) {
-          window.location = webUrl;
-        }
-      }, 1500);
-    }
+    // 如果跳 App 失败，1.5 秒后跳 H5
+    setTimeout(function () {
+      window.location.href = fallbackUrl;
+    }, 1500);
   </script>
 </body>
 </html>
